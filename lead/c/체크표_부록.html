@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>재무 건전성 셀프 체크</title>
+<meta name="description" content="내 재무 건전성 7지표 셀프 체크표 — 5분이면 내 위치가 보입니다. 머니인사이트 무료 자료">
+<style>
+  :root{
+    --navy:#14213d; --navy-2:#1f2f55; --gold:#c9a227; --gold-soft:#f4ecd2;
+    --ivory:#faf8f2; --paper:#ffffff; --ink:#1f2933; --muted:#5b6575; --line:#e3e0d6;
+    --ok:#2f7d4f; --ok-bg:#e8f4ec; --warn:#a86b00; --warn-bg:#fbf1dc; --bad:#b23a32; --bad-bg:#fbe9e7;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--ivory);color:var(--ink);
+    font-family:"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR",system-ui,sans-serif;
+    font-size:16px;line-height:1.6;word-break:keep-all;-webkit-text-size-adjust:100%}
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px}
+  section{padding:36px 0}
+  h1,h2,h3{line-height:1.35;margin:0}
+  h2{font-size:22px;color:var(--navy)}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--gold)}
+  .lead{color:var(--muted);margin:8px 0 0}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* 1) 표지 */
+  .cover{background:var(--navy);color:#fff;padding:48px 0 40px;border-bottom:4px solid var(--gold)}
+  .cover .brand{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.06em}
+  .cover h1{font-size:28px;font-weight:800;margin:14px 0 10px}
+  .cover h1 em{font-style:normal;color:var(--gold)}
+  .cover .sub{font-size:17px;color:#dfe4ef;margin:0}
+  .cover .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .cover .pill{border:1px solid rgba(201,162,39,.6);color:#f3e7bf;border-radius:999px;padding:4px 12px;font-size:13px}
+  .how{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:-18px;position:relative}
+  .how ol{margin:6px 0 0;padding-left:20px}
+  .how li{margin:4px 0}
+  .how b{color:var(--navy)}
+
+  /* 2) 체크 */
+  .setup{display:grid;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:18px 0 6px}
+  .setup label{font-size:15px;font-weight:600;color:var(--navy)}
+  .seg{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .seg button{flex:1 1 auto;min-width:88px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 10px;font:inherit;font-size:14px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 16px 16px;margin-top:16px}
+  .card-head{display:flex;align-items:baseline;gap:10px}
+  .no{flex:none;width:28px;height:28px;border-radius:50%;background:var(--navy);color:var(--gold);font-weight:800;font-size:14px;display:grid;place-items:center}
+  .card h3{font-size:19px;color:var(--navy)}
+  .card h3 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:4px}
+  .what{margin:8px 0 0;color:var(--muted);font-size:15px}
+  .formula{margin:12px 0 0;background:var(--gold-soft);border-radius:10px;padding:10px 12px;font-size:15px}
+  .formula b{color:var(--navy)}
+  .bands{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+  .bands li{display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:8px 10px;font-size:15px;border:1px solid transparent;transition:border-color .2s, box-shadow .2s}
+  .tag{flex:none;font-size:12px;font-weight:800;border-radius:6px;padding:2px 8px;margin-top:2px}
+  .b-ok{background:var(--ok-bg)} .b-ok .tag{background:var(--ok);color:#fff}
+  .b-warn{background:var(--warn-bg)} .b-warn .tag{background:var(--warn);color:#fff}
+  .b-bad{background:var(--bad-bg)} .b-bad .tag{background:var(--bad);color:#fff}
+  .bands li.hit{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy)}
+  .note{font-size:13px;color:var(--muted);margin:8px 0 0}
+
+  .calc{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+  .calc .t{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.04em}
+  .row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px 8px;margin-top:8px;font-size:15px}
+  .blank{display:inline-flex;flex-direction:column;min-width:0}
+  .blank span{font-size:12px;color:var(--muted)}
+  .blank input{width:118px;max-width:100%;border:0;border-bottom:2px solid var(--navy);background:transparent;font:inherit;font-size:17px;font-weight:700;color:var(--navy);padding:2px 2px 3px;outline:none;font-variant-numeric:tabular-nums}
+  .blank input:focus{border-bottom-color:var(--gold)}
+  .op{font-weight:700;color:var(--muted);padding-bottom:4px}
+  .res{display:inline-flex;align-items:baseline;gap:4px;padding-bottom:3px}
+  .res output{min-width:64px;border-bottom:2px solid var(--gold);font-size:18px;font-weight:800;color:var(--navy);text-align:center}
+  .verdict{margin-top:10px;font-size:15px;font-weight:700;min-height:1.6em}
+  .verdict.ok{color:var(--ok)} .verdict.warn{color:var(--warn)} .verdict.bad{color:var(--bad)}
+  .mark{margin-top:8px;font-size:14px;color:var(--muted)}
+  .mark .box{display:inline-block;width:15px;height:15px;border:1.5px solid var(--muted);border-radius:3px;vertical-align:-2px;margin:0 3px 0 10px}
+  .mark .box:first-child{margin-left:4px}
+
+  .summary{margin-top:20px;background:var(--navy);color:#fff;border-radius:16px;padding:18px 16px}
+  .summary h3{color:var(--gold);font-size:17px}
+  .tally{display:flex;gap:8px;margin-top:10px}
+  .tally div{flex:1;background:var(--navy-2);border-radius:10px;padding:10px 6px;text-align:center}
+  .tally b{display:block;font-size:24px}
+  .tally small{font-size:12px;color:#c9d1e3}
+  .summary p{margin:12px 0 0;font-size:15px;color:#e4e8f2}
+  .basis{font-size:13px;color:var(--muted);margin:14px 0 0}
+
+  /* 3) 샘플 */
+  .samples{display:grid;gap:14px;margin-top:18px}
+  figure{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  figure img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;background:#efeadb}
+  figcaption{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 14px;font-size:14px;font-weight:600;color:var(--navy)}
+  .ex{flex:none;font-size:12px;font-weight:700;color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:2px 8px}
+
+  /* 4) 설계사 */
+  .planner{display:flex;gap:16px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin-top:16px}
+  .avatar{flex:none;width:76px;height:76px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:30px;font-weight:800;border:3px solid var(--gold)}
+  .planner .name{font-size:18px;font-weight:800;color:var(--navy)}
+  .planner .org{font-size:14px;color:var(--muted)}
+  .planner p{margin:6px 0 0;font-size:15px}
+
+  /* 5) CTA */
+  .cta{display:grid;gap:10px;margin-top:18px}
+  .btn{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:16px 14px;font-weight:800;font-size:17px;line-height:1.4}
+  .btn-main{background:var(--gold);color:var(--navy)}
+  .btn-main small{display:block;font-size:14px;font-weight:700;opacity:.85}
+  .btn-sub{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+  .fine{font-size:13px;color:var(--muted);margin:12px 0 0;text-align:center}
+
+  footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:13px;color:var(--muted)}
+  footer p{margin:4px 0}
+  footer .disc{font-weight:700;color:var(--ink)}
+
+  @media (min-width:600px){
+    .cover h1{font-size:34px}
+    .samples{grid-template-columns:1fr 1fr 1fr}
+  }
+  @media print{
+    body{background:#fff}
+    .cover{background:#fff;color:var(--navy);border-bottom:2px solid var(--navy)}
+    .cover .sub{color:var(--ink)}
+    .setup,.cta,.verdict,#summary{display:none}
+    .card{break-inside:avoid}
+    .blank input{border-bottom-color:#000}
+  }
+</style>
+</head>
+<body>
+
+<!-- 1) 표지 -->
+<header class="cover">
+  <div class="wrap">
+    <div class="brand">머니인사이트 X 코리아프라이빗웰스 · 무료 자료</div>
+    <h1>내 재무 건전성 <em>7지표</em><br>셀프 체크표</h1>
+    <p class="sub">5분이면 내 위치가 보입니다.</p>
+    <div class="pill-row">
+      <span class="pill">저축 · 투자</span><span class="pill">자산 구성</span><span class="pill">비상자금</span><span class="pill">지출 · 부채</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="how">
+    <b>이렇게 쓰세요</b>
+    <ol>
+      <li>월소득·월지출·저축액, 자산·부채 금액을 대략 준비합니다(만 원 단위면 충분).</li>
+      <li>지표마다 빈칸에 숫자를 적으면 결과와 구간이 표시됩니다. 인쇄해서 손으로 적어도 됩니다.</li>
+      <li>「위험」이 나온 지표부터 먼저 보시면 됩니다.</li>
+    </ol>
+  </div>
+
+  <!-- 2) 7지표 셀프 체크 -->
+  <section id="check">
+    <div class="eyebrow">SELF CHECK</div>
+    <h2>7지표 셀프 체크</h2>
+    <p class="lead">실제 재무 진단 리포트 「07 재무 건전성 진단」에 쓰는 정의와 기준 구간을 그대로 옮겼습니다.</p>
+
+    <div class="setup">
+      <div>
+        <label>부양가족(배우자·자녀 등)이 있나요?</label>
+        <div class="seg" data-group="dep">
+          <button type="button" data-v="1" aria-pressed="true">있음</button>
+          <button type="button" data-v="0" aria-pressed="false">없음</button>
+        </div>
+      </div>
+      <div>
+        <label>나이대 <span style="font-weight:400;color:var(--muted)">(② 금융투자성향 상한에 씁니다)</span></label>
+        <div class="seg" data-group="age">
+          <button type="button" data-v="80" aria-pressed="false">20대</button>
+          <button type="button" data-v="70" aria-pressed="true">30대</button>
+          <button type="button" data-v="60" aria-pressed="false">40대</button>
+          <button type="button" data-v="50" aria-pressed="false">50대 이상</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ① 총저축성향 -->
+    <article class="card" data-k="save">
+      <div class="card-head"><div class="no">1</div><h3>총저축성향</h3></div>
+      <p class="what">월소득 중 저축·투자로 배치되는 비율입니다.</p>
+      <p class="formula"><b>계산</b> · 매달 실제로 넣는 저축·투자 금액 ÷ 월소득 × 100</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span><span class="t-dep1">30% 이상</span><span class="t-dep0" hidden>50% 이상</span></span></li>
+        <li class="b-warn"><span class="tag">주의</span><span><span class="t-dep1">약 20% ~ 30% 미만</span><span class="t-dep0" hidden>약 33% ~ 50% 미만</span></span></li>
+        <li class="b-bad"><span class="tag">위험</span><span><span class="t-dep1">약 20% 미만</span><span class="t-dep0" hidden>약 33% 미만</span> · 또는 매달 적자(지출이 소득보다 많음)</span></li>
+      </ul>
+      <p class="note">기준은 부양가족 있음 30%·없음 50%입니다(위 선택에 따라 바뀝니다).</p>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>월 저축·투자(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>월소득(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">× 100 =</span>
+          <span class="res"><output>　</output>%</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <!-- ② 금융투자성향 -->
+    <article class="card" data-k="inv">
+      <div class="card-head"><div class="no">2</div><h3>금융투자성향</h3></div>
+      <p class="what">매달 저축·투자로 넣는 돈 중, 주식·펀드처럼 실적에 따라 수익이 달라지는(투자형) 쪽의 비중입니다.</p>
+      <p class="formula"><b>계산</b> · 월 투자형 납입액 ÷ 월 저축·투자 납입액 전체 × 100</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span>30% 이상 ~ 나이대 상한 이하<br><small>상한: 20대 80% · 30대 70% · 40대 60% · 50대 이상 50%</small></span></li>
+        <li class="b-warn"><span class="tag">주의</span><span>약 20% ~ 30% 미만 · 또는 나이대 상한 초과(위험자산 비중이 큼)</span></li>
+        <li class="b-bad"><span class="tag">위험</span><span>약 20% 미만</span></li>
+      </ul>
+      <p class="note">투자형이 많을수록 좋다는 뜻이 아닙니다. 너무 적어도, 나이에 비해 너무 많아도 점검 대상입니다.</p>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>월 투자형 납입(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>월 저축·투자 전체(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">× 100 =</span>
+          <span class="res"><output>　</output>%</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <!-- ③ 금융자산 비중 -->
+    <article class="card" data-k="finw">
+      <div class="card-head"><div class="no">3</div><h3>금융자산 비중</h3></div>
+      <p class="what">총자산 중 금융자산(필요할 때 현금으로 바꿀 수 있는 자산)의 비율입니다. 집 한 채에 자산이 몰려 있는지 보는 지표입니다.</p>
+      <p class="formula"><b>계산</b> · 금융자산 ÷ 총자산(금융자산 + 부동산) × 100</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span>40% 이상</span></li>
+        <li class="b-warn"><span class="tag">주의</span><span>20% ~ 40% 미만</span></li>
+        <li class="b-bad"><span class="tag">위험</span><span>20% 미만 (부동산 편중)</span></li>
+      </ul>
+      <p class="note">금융자산 = 예적금·주식·펀드·연금·저축성 보험 등. 리포트와 같게 회사 퇴직연금(퇴직급여)은 빼고 계산합니다.</p>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>금융자산(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>총자산(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">× 100 =</span>
+          <span class="res"><output>　</output>%</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <!-- ④ 비상예비자금 -->
+    <article class="card" data-k="em">
+      <div class="card-head"><div class="no">4</div><h3>비상예비자금</h3></div>
+      <p class="what">갑자기 소득이 끊겨도 버틸 수 있도록, 월지출의 몇 개월분을 바로 꺼낼 수 있는 돈으로 갖고 있는지 봅니다.</p>
+      <p class="formula"><b>계산</b> · 바로 꺼낼 수 있는 돈(입출금·CMA·파킹통장 + 따로 모은 비상금) ÷ 월지출 = ○개월</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span>3개월 이상 (권장 3~6개월 · 직장인 3개월, 사업소득자 6개월)</span></li>
+        <li class="b-warn"><span class="tag">주의</span><span>1개월 ~ 3개월 미만</span></li>
+        <li class="b-bad"><span class="tag">위험</span><span>1개월 미만</span></li>
+      </ul>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>바로 꺼낼 수 있는 돈(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>월지출(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">=</span>
+          <span class="res"><output>　</output>개월</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <!-- ⑤ 가계수지 -->
+    <article class="card" data-k="bs">
+      <div class="card-head"><div class="no">5</div><h3>가계수지</h3></div>
+      <p class="what">월소득 대비 지출의 비율입니다. 낮을수록 매달 남는 돈이 많은 흑자 구조입니다.</p>
+      <p class="formula"><b>계산</b> · 월지출(저축·투자 납입은 빼고) ÷ 월소득 × 100</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span><span class="t-dep1">70% 이하</span><span class="t-dep0" hidden>50% 이하</span></span></li>
+        <li class="b-warn"><span class="tag">주의</span><span><span class="t-dep1">70% 초과 ~ 85% 이하</span><span class="t-dep0" hidden>50% 초과 ~ 65% 이하</span></span></li>
+        <li class="b-bad"><span class="tag">위험</span><span><span class="t-dep1">85% 초과</span><span class="t-dep0" hidden>65% 초과</span></span></li>
+      </ul>
+      <p class="note">기준은 부양가족 있음 70%·없음 50%입니다(위 선택에 따라 바뀝니다).</p>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>월지출(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>월소득(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">× 100 =</span>
+          <span class="res"><output>　</output>%</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <!-- ⑥ 총부채상환 -->
+    <article class="card" data-k="dsr">
+      <div class="card-head"><div class="no">6</div><h3>총부채상환 <small>DSR</small></h3></div>
+      <p class="what">월소득 중 모든 대출의 원금+이자 상환에 나가는 비율입니다. (DSR = 총부채원리금상환비율, 소득 대비 대출 상환 부담)</p>
+      <p class="formula"><b>계산</b> · 매달 갚는 대출 원금+이자 합계 ÷ 월소득 × 100</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span>30% 이하</span></li>
+        <li class="b-warn"><span class="tag">주의</span><span>30% 초과 ~ 40% 이하</span></li>
+        <li class="b-bad"><span class="tag">위험</span><span>40% 초과</span></li>
+      </ul>
+      <p class="note">가계 진단용 기준입니다. 금융회사가 대출 심사에 쓰는 규제 비율과는 다릅니다.</p>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>월 원리금 상환(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>월소득(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">× 100 =</span>
+          <span class="res"><output>　</output>%</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <!-- ⑦ 총부채부담 -->
+    <article class="card" data-k="dta">
+      <div class="card-head"><div class="no">7</div><h3>총부채부담</h3></div>
+      <p class="what">총자산 대비 남아 있는 부채 잔액의 비율입니다. 내 자산 중 빚으로 받친 부분이 얼마인지 봅니다.</p>
+      <p class="formula"><b>계산</b> · 부채 잔액 합계 ÷ 총자산(금융자산 + 부동산) × 100</p>
+      <ul class="bands">
+        <li class="b-ok"><span class="tag">양호</span><span>40% 이하</span></li>
+        <li class="b-warn"><span class="tag">주의</span><span>40% 초과 ~ 60% 이하</span></li>
+        <li class="b-bad"><span class="tag">위험</span><span>60% 초과</span></li>
+      </ul>
+      <div class="calc">
+        <div class="t">직접 계산</div>
+        <div class="row">
+          <label class="blank"><span>부채 잔액(만 원)</span><input inputmode="decimal" data-a></label>
+          <span class="op">÷</span>
+          <label class="blank"><span>총자산(만 원)</span><input inputmode="decimal" data-b></label>
+          <span class="op">× 100 =</span>
+          <span class="res"><output>　</output>%</span>
+        </div>
+        <div class="verdict" aria-live="polite"></div>
+        <div class="mark">내 결과<span class="box"></span>양호<span class="box"></span>주의<span class="box"></span>위험</div>
+      </div>
+    </article>
+
+    <div class="summary" id="summary">
+      <h3>내 결과 한눈에</h3>
+      <div class="tally">
+        <div><b class="num" id="n-ok">0</b><small>양호</small></div>
+        <div><b class="num" id="n-warn">0</b><small>주의</small></div>
+        <div><b class="num" id="n-bad">0</b><small>위험</small></div>
+      </div>
+      <p id="next">숫자를 적으면 「먼저 볼 지표 1개」를 알려 드립니다.</p>
+    </div>
+
+    <p class="basis">기준 구간 출처: <b>머니인사이트 진단 기준(일반적 가이드라인 참고)</b>. 실제 리포트는 담당 설계사가 고객 상황(소득 형태·가족 구성 등)에 맞춰 기준을 조정할 수 있습니다. 입력한 숫자는 이 화면에서만 계산되며 어디에도 저장·전송되지 않습니다.</p>
+  </section>
+
+  <!-- 3) 리포트 샘플 -->
+  <section id="sample">
+    <div class="eyebrow">REPORT PREVIEW</div>
+    <h2>전문가가 내 숫자로 보면?</h2>
+    <p class="lead">셀프 체크는 「어디가 약한지」까지입니다. 재무 진단 리포트는 내 숫자로 재무상태표·현금흐름표를 만들고, 7지표를 한 장에 놓고 무엇부터 손볼지 순서까지 정리합니다.</p>
+    <div class="samples">
+      <figure>
+        <img src="sample-1-balance.png" alt="재무 진단 리포트 샘플 — 재무상태표와 금융자산 비중(가상 고객 예시)" loading="lazy" width="1440" height="1800">
+        <figcaption>재무상태표 · 금융자산 비중 <span class="ex">가상 고객 예시</span></figcaption>
+      </figure>
+      <figure>
+        <img src="sample-2-cashflow.png" alt="재무 진단 리포트 샘플 — 현금흐름표(가상 고객 예시)" loading="lazy" width="1440" height="1800">
+        <figcaption>현금흐름표 <span class="ex">가상 고객 예시</span></figcaption>
+      </figure>
+      <figure>
+        <img src="sample-3-health.png" alt="재무 진단 리포트 샘플 — 재무 건전성 진단 7지표(가상 고객 예시)" loading="lazy" width="1440" height="1800">
+        <figcaption>재무 건전성 진단 7지표 <span class="ex">가상 고객 예시</span></figcaption>
+      </figure>
+    </div>
+    <p class="basis">샘플의 이름·금액은 모두 설명을 위해 만든 가상 고객 예시이며 실제 고객 정보가 아닙니다.</p>
+  </section>
+
+  <!-- 4) 설계사 소개 -->
+  <section id="planner" style="padding-top:8px">
+    <div class="eyebrow">WHO</div>
+    <h2>리포트를 만드는 사람</h2>
+    <div class="planner">
+      <div class="avatar" aria-hidden="true">이</div>
+      <div>
+        <div class="name">이형주 재무설계사</div>
+        <div class="org">머니인사이트 X 코리아프라이빗웰스</div>
+        <p>입력해 주신 숫자로 리포트를 직접 작성하고, 원하시면 결과를 15분 안에 설명해 드립니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5) CTA -->
+  <section id="cta" style="padding-top:8px">
+    <h2>내 숫자로 진단받아 보기</h2>
+    <div class="cta">
+      <a class="btn btn-main" href="{{FORM_URL_C}}">재무정보 입력하고 무료 리포트 받기<small>매월 선착순 10명</small></a>
+      <a class="btn btn-sub" href="{{KAKAO_URL}}">카톡 오픈채팅으로 먼저 물어보기</a>
+    </div>
+    <p class="fine">입력해 주신 내용을 이형주 재무설계사가 확인한 뒤 연락드립니다 · 신청만으로 가입 권유 없음 · 링크·금융정보를 문자로 먼저 요구하지 않습니다</p>
+  </section>
+</main>
+
+<!-- 6) 면책 -->
+<footer>
+  <div class="wrap">
+    <p class="disc">본 콘텐츠는 참고용 정보이며 투자 권유·수익 보장이 아닙니다.</p>
+    <p>셀프 체크 결과는 일반적인 가계 재무 기준에 비춘 참고용 진단이며, 개인의 소득 형태·가족 구성·목표에 따라 적정 수준은 달라질 수 있습니다. 세무·법률 사안은 전문가 상담을 권합니다.</p>
+    <p>© 머니인사이트</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // 기준값 = CRM 재무 진단 리포트(assets_calc.finance_ratios) 코드 기본값과 동일
+  var st = {dep:true, cap:70};
+  function num(v){ v=String(v||'').replace(/[,\s]/g,''); if(v==='') return null; var n=parseFloat(v); return isFinite(n)?n:null; }
+  var rules = {
+    save: function(r){ var ok=st.dep?30:50; return r>=ok?'ok':(r>=ok*0.66?'warn':'bad'); },
+    inv:  function(r){ if(r>=30&&r<=st.cap) return 'ok'; return r>=30*0.66?'warn':'bad'; },
+    finw: function(r){ return r>=40?'ok':(r>=20?'warn':'bad'); },
+    em:   function(r){ return r>=3?'ok':(r>=1?'warn':'bad'); },
+    bs:   function(r){ var ok=st.dep?70:50; return r<=ok?'ok':(r<=ok+15?'warn':'bad'); },
+    dsr:  function(r){ return r<=30?'ok':(r<=40?'warn':'bad'); },
+    dta:  function(r){ return r<=40?'ok':(r<=60?'warn':'bad'); }
+  };
+  var unit = {em:'개월'};
+  var label = {ok:'양호',warn:'주의',bad:'위험'};
+  var order = ['save','inv','finw','em','bs','dsr','dta'];
+  var names = {save:'① 총저축성향',inv:'② 금융투자성향',finw:'③ 금융자산 비중',em:'④ 비상예비자금',bs:'⑤ 가계수지',dsr:'⑥ 총부채상환',dta:'⑦ 총부채부담'};
+  var result = {};
+
+  function calc(card){
+    var k=card.getAttribute('data-k');
+    var a=num(card.querySelector('[data-a]').value), b=num(card.querySelector('[data-b]').value);
+    var out=card.querySelector('output'), vd=card.querySelector('.verdict');
+    var lis=card.querySelectorAll('.bands li');
+    for(var i=0;i<lis.length;i++) lis[i].classList.remove('hit');
+    vd.className='verdict'; vd.textContent='';
+    if(a===null||b===null||b<=0){ out.textContent='　'; delete result[k]; return; }
+    var r = k==='em' ? a/b : a/b*100;
+    r = Math.round(r*10)/10;
+    out.textContent = r;
+    var g = rules[k](r);
+    // 총저축성향: 가계수지가 적자(지출>소득)로 확인되면 위험(리포트 규칙과 동일)
+    if(k==='save'){ var bs=result._bsRaw; if(bs && bs.exp>bs.inc) g='bad'; }
+    result[k]=g;
+    lis[{ok:0,warn:1,bad:2}[g]].classList.add('hit');
+    vd.classList.add(g);
+    vd.textContent = '→ '+r+(unit[k]||'%')+' · '+label[g];
+  }
+  function bsRaw(){
+    var c=document.querySelector('[data-k="bs"]');
+    var e=num(c.querySelector('[data-a]').value), i=num(c.querySelector('[data-b]').value);
+    result._bsRaw = (e!==null&&i!==null)?{exp:e,inc:i}:null;
+  }
+  function all(){
+    bsRaw();
+    var cards=document.querySelectorAll('.card');
+    for(var i=0;i<cards.length;i++) calc(cards[i]);
+    var n={ok:0,warn:0,bad:0}, first=null, firstWarn=null;
+    order.forEach(function(k){ var g=result[k]; if(!g) return; n[g]++; if(g==='bad'&&!first) first=k; if(g==='warn'&&!firstWarn) firstWarn=k; });
+    document.getElementById('n-ok').textContent=n.ok;
+    document.getElementById('n-warn').textContent=n.warn;
+    document.getElementById('n-bad').textContent=n.bad;
+    var t=n.ok+n.warn+n.bad, p=document.getElementById('next');
+    if(!t) p.textContent='숫자를 적으면 「먼저 볼 지표 1개」를 알려 드립니다.';
+    else if(first) p.textContent='먼저 볼 지표: '+names[first]+' — 「위험」 구간입니다. 원인과 고치는 순서는 내 숫자 전체를 함께 봐야 정확합니다.';
+    else if(firstWarn) p.textContent='먼저 볼 지표: '+names[firstWarn]+' — 「주의」 구간입니다.';
+    else p.textContent='적어 주신 지표는 모두 「양호」 구간입니다. 아직 비어 있는 지표가 있다면 마저 확인해 보세요.';
+  }
+  document.addEventListener('input', function(e){ if(e.target.matches('.blank input')) all(); });
+  document.querySelectorAll('.seg').forEach(function(seg){
+    seg.addEventListener('click', function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      seg.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+      if(seg.getAttribute('data-group')==='dep'){
+        st.dep = b.getAttribute('data-v')==='1';
+        document.querySelectorAll('.t-dep1').forEach(function(x){ x.hidden=!st.dep; });
+        document.querySelectorAll('.t-dep0').forEach(function(x){ x.hidden=st.dep; });
+      } else { st.cap = parseFloat(b.getAttribute('data-v')); }
+      all();
+    });
+  });
+})();
+</script>
+</body>
+</html>

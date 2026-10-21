@@ -6,8 +6,8 @@
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#141826">
-<title>머니인사이트 이벤트 · 내 돈 점검 3종 무료 공개</title>
-<meta name="description" content="머니인사이트 이벤트 — 1분 체크카드 · 연말정산 체크리스트 · 내 돈 관리 테스트 무료 공개, 재무상담 신청 선착순 10명">
+<title>머니인사이트 이벤트 · 재무정보 3종 무료 제공</title>
+<meta name="description" content="머니인사이트 이벤트 — 1분 체크카드 · 연말정산 체크리스트 · 내 돈 관리 테스트 무료 제공 · 재무상담은 이번 달 선착순 10명">
 <link rel="preload" href="fonts/mi-sans.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   /* 이벤트 입구(허브) — A·B·C 다크 v3 토큰과 동일. 규칙은 ../디자인가이드.md */
@@ -19,14 +19,14 @@
   body{margin:0; background:var(--bg); color:var(--ink); font-family:"MI Sans","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
     font-size:15px; line-height:1.6; letter-spacing:-.012em; word-break:keep-all; overflow-wrap:break-word; -webkit-font-smoothing:antialiased}
   a{color:inherit; text-decoration:none}
-  .wrap{max-width:480px; margin:0 auto; padding:20px 20px calc(18px + env(safe-area-inset-bottom)); min-height:100vh; min-height:100dvh; display:flex; flex-direction:column}
+  .wrap{max-width:480px; margin:0 auto; padding:16px 20px calc(14px + env(safe-area-inset-bottom)); min-height:100vh; min-height:100dvh; display:flex; flex-direction:column}
   .logo{font-size:16px; font-weight:800; letter-spacing:-.03em}
   .logo i{font-style:normal; color:var(--mint)}
-  .pill{display:inline-flex; align-items:center; gap:6px; margin-top:16px; padding:5px 12px; border-radius:999px; background:var(--mint-tint); color:var(--mint-ink); font-size:12.5px; font-weight:700}
+  .pill{display:inline-flex; align-items:center; gap:6px; margin-top:12px; padding:5px 12px; border-radius:999px; background:var(--mint-tint); color:var(--mint-ink); font-size:12.5px; font-weight:700}
   .pill::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--mint)}
   h1{margin:10px 0 0; font-size:28px; line-height:1.28; font-weight:800; letter-spacing:-.05em}
   h1 em{font-style:normal; background:linear-gradient(transparent 62%, rgba(60,195,166,.38) 62%); padding:0 2px}
-  .list{list-style:none; margin:18px 0 0; padding:0; display:flex; flex-direction:column; gap:8px}
+  .list{list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:7px}
   .item{display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:14px; background:var(--surface); border:1px solid var(--line)}
   .item:active{border-color:var(--mint)}
   .no{flex:none; width:28px; height:28px; border-radius:50%; border:1px solid var(--line-2); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--mint-ink)}
@@ -34,13 +34,14 @@
   .tx b{display:block; font-size:16px; font-weight:750; line-height:1.35; letter-spacing:-.035em}
   .tx small{display:block; margin-top:2px; font-size:12.5px; color:var(--ink-3); line-height:1.4}
   .go{flex:none; width:18px; height:18px; color:var(--ink-3)}
-  .ev{margin-top:14px; padding:15px 15px 14px; border-radius:14px; background:var(--mint-tint); border:1px solid var(--mint)}
+  .ev{margin-top:12px; padding:13px 14px 12px; border-radius:14px; background:var(--mint-tint); border:1px solid var(--mint)}
   .ev .k{font-size:12.5px; font-weight:700; color:var(--mint-ink)}
   .ev p{margin:4px 0 12px; font-size:15px; font-weight:700; line-height:1.45; letter-spacing:-.03em}
   .btn{display:block; text-align:center; padding:14px 10px; border-radius:12px; background:var(--mint); color:var(--on-mint); font-size:16px; font-weight:800; letter-spacing:-.02em}
   .btn:active{background:#33AD93}
-  .fine{margin:9px 0 0; font-size:11.5px; line-height:1.55; color:var(--ink-3); text-align:center}
-  footer{margin-top:auto; padding-top:16px; font-size:11.5px; line-height:1.55; color:var(--ink-3)}
+  .ev .fine{margin:8px 0 0; font-size:11.5px; font-weight:400; line-height:1.55; color:var(--ink-3); text-align:center; letter-spacing:-.01em}
+  .pill{align-self:flex-start}
+  footer{margin-top:auto; padding-top:12px; font-size:11.5px; line-height:1.55; color:var(--ink-3)}
   footer .disc{color:var(--ink-2); font-weight:600}
   footer .who{margin-top:4px}
   footer .who b{color:var(--ink-2); font-weight:650}
@@ -51,8 +52,8 @@
 <body>
 <div class="wrap">
   <div class="logo">머니인사이트<i>.</i></div>
-  <span class="pill">머니인사이트 이벤트 · 무료 공개</span>
-  <h1>내 돈 점검 <em>3종</em><br>무료 공개</h1>
+  <span class="pill">머니인사이트 이벤트 · 재무정보 3종 무료</span>
+  <h1>재무정보 <em>3종</em><br>무료 제공</h1>
 
   <ul class="list">
     <li><a class="item" href="./a/"><span class="no">1</span><span class="tx"><b>내 돈을 위한 안전한 결정 1분 체크카드</b><small>되돌리기 어려운 돈 결정 7가지 · 나는 몇 개?</small></span><svg class="go" viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a></li>
@@ -61,9 +62,9 @@
   </ul>
 
   <div class="ev">
-    <div class="k">이벤트 혜택 · 재무상담 신청 선착순 10명</div>
-    <p>내 자산 재무 리포트(요약판) &amp; AFPK 재무설계사 1:1 상담</p>
-    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScEzvozm510wXqi6RQnD4XOTuIXA0N8yHzjfdtA5SakGg-c5g/viewform?usp=pp_url&amp;entry.1609001030=%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8">재무상담 신청 · 선착순 10명</a>
+    <div class="k">재무상담 · 이번 달 선착순 10명</div>
+    <p>재무상담은 이번 달 선착순 10명만 받습니다. 내 자산 상세 리포트로 AFPK 재무설계사가 1:1로 자세히 상담해 드립니다</p>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScEzvozm510wXqi6RQnD4XOTuIXA0N8yHzjfdtA5SakGg-c5g/viewform?usp=pp_url&amp;entry.1609001030=%EC%9D%B8%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8">재무상담 신청 (선착순 10명)</a>
     <p class="fine">신청·리포트 단계에서는 상품 권유를 하지 않습니다</p>
     <p class="fine">신청 시 이름·연락처·성별·나이대를 상담 안내 목적으로 수집하며, 제3자에게 제공하지 않고 상담 종료 후 1년 뒤 파기합니다. 자세한 내용은 신청 폼에서 확인하실 수 있습니다.</p>
   </div>
